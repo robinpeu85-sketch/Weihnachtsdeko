@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weihnachtsdeko bestellen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Werkstatt im Dezember: Tannengrün + Messing, Filamentfarben als einzige bunte Flächen. Layout: Tabs oben, Shop-Raster + Warenkorb-Spalte */
+  --bg:#f2f4f1; --surface:#ffffff; --ink:#17251f; --muted:#5b6a63; --line:#d8dfda;
+  --accent:#1f5c45; --accent-ink:#ffffff; --brass:#a87a26;
+  --ok:#2e7d4f; --warn:#b06d12; --bad:#b3362b;
+  --ok-bg:#e3f1e8; --warn-bg:#fbefdc; --bad-bg:#f8e1de;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1613; --surface:#18231e; --ink:#e5ebe7; --muted:#9aa9a1; --line:#2b3a33;
+  --accent:#62b48d; --accent-ink:#0c1511; --brass:#d8ab52;
+  --ok:#6cc792; --warn:#e3a54a; --bad:#ec7b6f;
+  --ok-bg:#1c3326; --warn-bg:#3a2c14; --bad-bg:#3d1f1b; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0f1613; --surface:#18231e; --ink:#e5ebe7; --muted:#9aa9a1; --line:#2b3a33;
+  --accent:#62b48d; --accent-ink:#0c1511; --brass:#d8ab52;
+  --ok:#6cc792; --warn:#e3a54a; --bad:#ec7b6f;
+  --ok-bg:#1c3326; --warn-bg:#3a2c14; --bad-bg:#3d1f1b; color-scheme:dark;}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--body)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+h1{font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-.01em}
+h2{font-size:20px;font-weight:600}
+h3{font-size:16px;font-weight:600}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 16px 60px}
+header.top{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+header.top p{margin:4px 0 0;color:var(--muted);max-width:60ch}
+.badge{font:500 12px var(--mono);padding:3px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 18px}
+nav.tabs a{padding:8px 14px;border-radius:8px;color:var(--ink);text-decoration:none;font-weight:500;border:1px solid transparent}
+nav.tabs a:hover{border-color:var(--line)}
+nav.tabs a[aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
+nav.tabs a .n{font:500 12px var(--mono);margin-left:6px;opacity:.8}
+.notice{padding:10px 14px;border-radius:8px;background:var(--warn-bg);color:var(--ink);margin-bottom:14px;border-left:4px solid var(--warn)}
+.notice:empty{display:none}
+section[hidden]{display:none}
+.shop{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
+@media (max-width:900px){.shop{grid-template-columns:1fr}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.prod-head{display:flex;gap:12px;align-items:center}
+.icon{width:56px;height:56px;flex:none;border-radius:10px;background:var(--bg);display:grid;place-items:center}
+.icon svg{width:40px;height:40px}
+.price{font:600 17px var(--display);color:var(--brass)}
+.meta{color:var(--muted);font-size:13px}
+.desc{margin:0;color:var(--muted);font-size:14px}
+label{font-size:13px;font-weight:500;display:block}
+select,input,textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 9px;width:100%}
+select:focus,input:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.part{display:grid;grid-template-columns:1fr;gap:4px}
+.part .row{display:flex;gap:8px;align-items:center}
+.sw{width:18px;height:18px;border-radius:50%;flex:none;border:1px solid rgba(0,0,0,.25);display:inline-block;vertical-align:-4px}
+.row{display:flex;gap:8px;align-items:center}
+.qty{width:70px}
+button{font:inherit;font-weight:600;border-radius:8px;padding:8px 14px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.ghost{background:transparent}
+button.small{padding:4px 10px;font-size:13px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.cart{position:sticky;top:12px}
+.cart .card{position:static}
+.cart ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.cart li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.cart .sum{display:flex;justify-content:space-between;font-weight:600}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font:500 12px var(--body);padding:2px 8px;border-radius:99px;white-space:nowrap}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.pill.neu{background:var(--warn-bg);color:var(--warn)}
+.pill.druck{background:var(--ok-bg);color:var(--accent)}
+.pill.fertig{background:var(--ok-bg);color:var(--ok)}
+.pill.abgeholt{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.check{display:grid;gap:6px;font-size:13px}
+.check .row{justify-content:space-between}
+.form{display:grid;gap:10px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.tile b{display:block;font:800 26px var(--display)}
+.tile span{color:var(--muted);font-size:13px}
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+tr:last-child td{border-bottom:none}
+td.r,th.r{text-align:right}
+.bar{height:8px;border-radius:99px;background:var(--bg);overflow:hidden;min-width:90px;border:1px solid var(--line)}
+.bar i{display:block;height:100%}
+.stack{display:grid;gap:16px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:800px){.two{grid-template-columns:1fr}}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;align-items:end}
+.qrbox{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+@media (max-width:640px){.qrbox{grid-template-columns:1fr}}
+.qr{background:#fff;padding:14px;border-radius:12px;width:260px;max-width:100%}
+.qr svg,.qr img,.qr canvas{display:block;width:100%;height:auto}
+.muted{color:var(--muted)}
+.hint{font-size:13px;color:var(--muted);margin:0}
+code.ordercode{display:block;word-break:break-all;font:500 12px var(--mono);background:var(--bg);border:1px solid var(--line);padding:8px;border-radius:8px;max-height:120px;overflow:auto}
+.ok-msg{background:var(--ok-bg);color:var(--ink);border-left:4px solid var(--ok);padding:10px 12px;border-radius:8px}
+.empty{padding:20px;text-align:center;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){button,nav.tabs a{transition:background .15s,border-color .15s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Weihnachtsdeko aus dem 3D-Drucker</h1>
+      <p>Modell aussuchen, Farbe wählen, bestellen. Abholung bei Robin am Platz, sobald alles gedruckt ist. Bezahlen bar oder per PayPal.</p>
+    </div>
+    <span class="badge" id="stand">lädt …</span>
+  </header>
+  <div class="notice" id="notice" style="margin-top:14px"></div>
+  <div class="shop" style="margin-top:18px">
+    <div class="grid" id="products"><div class="card empty">Modelle werden geladen …</div></div>
+    <aside class="stack cart"><div class="card" id="cart"></div>
+      <form class="card form" id="statusForm"><h2>Bestellstatus</h2>
+        <div><label for="s-nr">Bestellnummer</label><input id="s-nr" placeholder="z. B. D007-K4F" maxlength="12" autocomplete="off"></div>
+        <button type="submit">Status anzeigen</button><div id="statusOut"></div></form>
+    </aside>
+  </div>
+</div>
+<script>
+const SCRIPT_URL = "__SCRIPT_URL__";
+const WASTE = 1.15;
+const PAYPAL = "https://www.paypal.me/RobinPeupelmann";
+
+const ICONS = {
+  stern:'<svg viewBox="0 0 40 40"><path d="M20 3l5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1z" fill="var(--brass)"/></svg>',
+  schneeflocke:'<svg viewBox="0 0 40 40" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M20 3v34M5 11.5l30 17M5 28.5l30-17M20 9l-4-4M20 9l4-4M20 31l-4 4M20 31l4 4"/></svg>',
+  baum:'<svg viewBox="0 0 40 40"><path d="M20 4l9 11h-5l8 10h-6l7 8H7l7-8H8l8-10h-5z" fill="var(--accent)"/><rect x="17" y="33" width="6" height="5" fill="var(--brass)"/></svg>',
+  kugel:'<svg viewBox="0 0 40 40"><rect x="16" y="4" width="8" height="6" rx="1.5" fill="var(--brass)"/><circle cx="20" cy="23" r="13" fill="var(--bad)"/><path d="M10 21c6 3 14 3 20 0" stroke="#fff" stroke-width="1.6" fill="none" opacity=".7"/></svg>',
+  wichtel:'<svg viewBox="0 0 40 40"><path d="M20 3l11 22H9z" fill="var(--bad)"/><path d="M9 25h22c0 7-5 12-11 12S9 32 9 25z" fill="#e9e4dc"/><circle cx="20" cy="26" r="3" fill="#e2a27a"/></svg>',
+  kerze:'<svg viewBox="0 0 40 40"><path d="M20 4c3 4 3 7 0 9-3-2-3-5 0-9z" fill="var(--brass)"/><rect x="15" y="14" width="10" height="20" rx="2" fill="var(--bad)"/><rect x="9" y="33" width="22" height="4" rx="2" fill="var(--accent)"/></svg>',
+  standard:'<svg viewBox="0 0 40 40"><rect x="8" y="8" width="24" height="24" rx="5" fill="var(--accent)"/></svg>'
+};
+const DEMO = {filament:[
+  {id:"pla-rot",name:"Rot",material:"PLA",hex:"#c0392b",free:30},
+  {id:"pla-gruen",name:"Tannengrün",material:"PLA",hex:"#1e6b3a",free:420},
+  {id:"pla-gold",name:"Gold Silk",material:"PLA",hex:"#c9a227",free:180}],
+ products:[
+  {id:"stern",name:"Stern-Anhänger",price:1.5,icon:"stern",desc:"8 cm, mit Öse.",parts:[{label:"Stern",grams:12,material:"PLA"}],sort:1},
+  {id:"baum",name:"Tannenbaum-Teelicht",price:4,icon:"baum",desc:"Für LED-Teelichter.",parts:[{label:"Baum",grams:42,material:"PLA"},{label:"Spitze",grams:4,material:"PLA"}],sort:2}]};
+
+const S={closed:false,schluss:"2026-12-10T23:59:59+01:00",fil:[],prod:[],cart:[],sel:{},form:{name:"",dept:"",pickup:"",note:""},sent:null,busy:false,demo:false};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const eur=n=>(Number(n)||0).toLocaleString("de-DE",{style:"currency",currency:"EUR"});
+const g=n=>Math.round(Number(n)||0).toLocaleString("de-DE")+" g";
+const filById=id=>S.fil.find(f=>f.id===id);
+const prodById=id=>S.prod.find(p=>p.id===id);
+
+/* Gramm pro Stück je Filament, inkl. Puffer */
+function perPiece(p,colors){ const m={}; (p.parts||[]).forEach((pt,i)=>{const f=colors[i]; if(f) m[f]=(m[f]||0)+pt.grams*WASTE;}); return m; }
+function cartUse(skip){ const m={}; S.cart.forEach((x,j)=>{ if(j===skip) return; for(const k in x.need) m[k]=(m[k]||0)+x.need[k]; }); return m; }
+function avail(id,skip){ const f=filById(id); return f?Math.max(0,f.free-(cartUse(skip)[id]||0)):0; }
+/* Wie viele Stück gehen mit dieser Farbwahl noch? */
+function maxQty(p,colors){
+  const pp=perPiece(p,colors); let mx=Infinity;
+  for(const k in pp) mx=Math.min(mx,Math.floor(avail(k)/pp[k]+1e-9));
+  return mx===Infinity?0:Math.min(50,mx);
+}
+
+function renderProducts(){
+  const ps=[...S.prod].sort((a,b)=>(a.sort??99)-(b.sort??99));
+  if(!ps.length){$("products").innerHTML='<div class="card empty">Gerade keine Modelle verfügbar.</div>';return;}
+  $("products").innerHTML=ps.map(p=>{
+    const sel=S.sel[p.id]||(S.sel[p.id]={colors:[],qty:1,text:""});
+    const total=p.parts.reduce((s,x)=>s+x.grams,0);
+    const parts=p.parts.map((pt,i)=>{
+      const list=S.fil.filter(f=>f.material.toLowerCase()===String(pt.material).toLowerCase());
+      const f=filById(sel.colors[i]);
+      const opts='<option value="">Farbe wählen …</option>'+list.map(f=>{
+        const n=Math.floor(avail(f.id)/(pt.grams*WASTE)); const out=n<1;
+        return `<option value="${esc(f.id)}" ${f.id===sel.colors[i]?"selected":""} ${out?"disabled":""}>${esc(f.name)}${out?" (ausverkauft)":""}</option>`;}).join("");
+      return `<div class="part"><label for="c-${esc(p.id)}-${i}">${esc(pt.label)}</label>
+        <div class="row"><span class="sw" style="background:${esc(f?.hex||"transparent")}"></span>
+        <select id="c-${esc(p.id)}-${i}" data-act="color" data-p="${esc(p.id)}" data-i="${i}">${opts}</select></div></div>`;
+    }).join("");
+    const ready=p.parts.every((_,i)=>sel.colors[i]);
+    const mx=ready?maxQty(p,sel.colors):0;
+    if(ready && sel.qty>mx) sel.over=true; else sel.over=false;
+    let info="";
+    if(ready){
+      if(mx<1) info=`<span class="pill bad">Mit dieser Farbwahl leider ausverkauft</span>`;
+      else if(sel.over) info=`<span class="pill bad">Geht leider nur ${mx}× in dieser Farbe</span>`;
+      else info=`<span class="pill ${mx<=3?"warn":"ok"}">Reicht noch für ${mx} Stück</span>`;
+    }
+    return `<article class="card">
+      <div class="prod-head"><div class="icon">${ICONS[p.icon]||ICONS.standard}</div>
+        <div><h3>${esc(p.name)}</h3><div class="row"><span class="price">${eur(p.price)}</span><span class="meta num">${g(total)}</span></div></div></div>
+      ${p.desc?`<p class="desc">${esc(p.desc)}</p>`:""}
+      ${parts}
+      ${p.personalize?`<div><label for="t-${esc(p.id)}">Wunschtext</label><input id="t-${esc(p.id)}" maxlength="20" data-act="text" data-p="${esc(p.id)}" value="${esc(sel.text)}" placeholder="z. B. Name"></div>`:""}
+      ${info}
+      <div class="row"><input class="qty num" type="number" min="1" max="${Math.max(1,mx)}" id="q-${esc(p.id)}" aria-label="Anzahl" data-act="qty" data-p="${esc(p.id)}" value="${sel.qty}">
+        <button class="primary" data-act="add" data-p="${esc(p.id)}" ${ready&&mx>=1&&!sel.over&&!S.closed?"":"disabled"}>In den Warenkorb</button></div>
+    </article>`;
+  }).join("");
+}
+
+function renderCart(){
+  let h="<h2>Warenkorb</h2>";
+  if(S.sent){
+    h+=`<div class="ok-msg"><b>Danke, ${esc(S.sent.name)}!</b><br>Deine Bestellnummer ist <b class="num">${esc(S.sent.nr)}</b>. Betrag: <b>${eur(S.sent.betrag)}</b>.</div>
+      <p style="margin:0">Bezahlen kannst du bar bei Abholung oder vorab per PayPal. Bitte „Freunde &amp; Familie“ wählen und die Bestellnummer angeben..</p>
+      <a class="primary" style="display:inline-block;text-align:center;padding:9px 14px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none" href="${PAYPAL}/${(Math.round(S.sent.betrag*100)/100).toFixed(2)}EUR" target="_blank" rel="noopener">Mit PayPal zahlen (${eur(S.sent.betrag)})</a>
+      <p class="hint">Mach einen Screenshot von der Bestellnummer. Damit siehst du unten jederzeit, ob deine Deko fertig ist, und holst sie dann bei Robin am Platz ab.</p><button class="ghost" data-act="again">Noch etwas bestellen</button>`;
+    $("cart").innerHTML=h; return;
+  }
+  if(S.closed){ $("cart").innerHTML=h+'<div class="notice" style="margin:0">Bestellschluss war am 10.12. Danke fürs Interesse und frohe Weihnachten!</div>'; return; }
+  if(!S.cart.length){ $("cart").innerHTML=h+'<p class="hint">Noch leer. Wähle links eine Farbe und lege ein Modell in den Warenkorb.</p>'; return; }
+  const total=S.cart.reduce((s,x)=>s+x.price*x.qty,0);
+  h+=`<ul>${S.cart.map((x,i)=>`<li><div><b>${x.qty}× ${esc(x.name)}</b><div class="meta">${x.labels.map(esc).join(", ")}${x.text?" · „"+esc(x.text)+"“":""}</div></div>
+    <div style="text-align:right"><div class="num">${eur(x.price*x.qty)}</div><button class="small ghost" data-act="rm" data-i="${i}">Entfernen</button></div></li>`).join("")}</ul>
+    <div class="sum"><span>Summe</span><span class="num">${eur(total)}</span></div>
+    <form class="form" id="orderForm">
+      <div><label for="f-name">Dein Name *</label><input id="f-name" required maxlength="60" value="${esc(S.form.name)}"></div>
+      <div><label for="f-dept">Abteilung</label><input id="f-dept" maxlength="40" value="${esc(S.form.dept)}"></div>
+      <div><label for="f-note">Anmerkung</label><textarea id="f-note" rows="2" maxlength="300">${esc(S.form.note)}</textarea></div>
+      <button class="primary" type="submit" ${S.busy?"disabled":""}>${S.busy?"Wird gesendet …":"Verbindlich bestellen"}</button>
+      <p class="hint">Bestellschluss: 10.12. Das Filament ist reserviert, sobald die Bestellung abgeschickt ist.</p>
+    </form>`;
+  $("cart").innerHTML=h;
+}
+function renderAll(){ renderProducts(); renderCart(); }
+function note(t){ $("notice").textContent=t||""; }
+function readForm(){ const v=id=>$(id)?$(id).value.trim():""; if($("f-name")) S.form={name:v("f-name"),dept:v("f-dept"),note:v("f-note")}; }
+
+document.addEventListener("change",e=>{
+  const t=e.target,a=t.dataset.act; if(!a) return;
+  if(a==="color"){ S.sel[t.dataset.p].colors[+t.dataset.i]=t.value; renderProducts(); }
+  if(a==="qty"){ S.sel[t.dataset.p].qty=Math.max(1,parseInt(t.value)||1); renderProducts(); }
+});
+document.addEventListener("input",e=>{
+  if(e.target.closest("#orderForm")) readForm();
+  if(e.target.dataset.act==="text") S.sel[e.target.dataset.p].text=e.target.value.slice(0,20);
+});
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-act]"); if(!b) return;
+  const a=b.dataset.act;
+  if(a==="add"){
+    const p=prodById(b.dataset.p), sel=S.sel[p.id];
+    sel.qty=Math.max(1,parseInt($("q-"+p.id).value)||1);
+    const mx=maxQty(p,sel.colors); if(sel.qty>mx){ renderProducts(); return; }
+    const pp=perPiece(p,sel.colors), need={}; for(const k in pp) need[k]=pp[k]*sel.qty;
+    S.cart.push({productId:p.id,name:p.name,price:p.price,qty:sel.qty,colors:[...sel.colors],text:p.personalize?sel.text:"",
+      labels:p.parts.map((pt,i)=>pt.label+": "+(filById(sel.colors[i])?.name||"")),need});
+    sel.qty=1; renderAll();
+  }
+  if(a==="rm"){ readForm(); S.cart.splice(+b.dataset.i,1); renderAll(); }
+  if(a==="again"){ S.sent=null; renderCart(); }
+});
+document.addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(e.target.id==="statusForm") return checkStatus();
+  if(e.target.id!=="orderForm"||S.busy) return;
+  readForm(); if(!S.form.name){ note("Bitte gib deinen Namen an."); return; }
+  if(S.demo){ note("Das ist nur die Vorschau. Bestellungen gehen erst auf der fertigen Seite raus."); return; }
+  S.busy=true; renderCart(); note("");
+  const body={...S.form,items:S.cart.map(x=>({productId:x.productId,qty:x.qty,colors:x.colors,text:x.text}))};
+  try{
+    const r=await fetch(SCRIPT_URL,{method:"POST",body:JSON.stringify(body)}); const d=await r.json();
+    if(d.ok){ S.sent={nr:d.nr,betrag:d.betrag,name:S.form.name}; S.cart=[]; S.form={name:"",dept:"",note:""}; try{localStorage.setItem("deko-nr",d.nr);}catch{} if($("s-nr")) $("s-nr").value=d.nr; }
+    else note(d.fehler||"Die Bestellung hat nicht geklappt. Bitte noch einmal versuchen.");
+  }catch{ note("Keine Verbindung. Bitte prüfe dein Internet und versuche es noch einmal."); }
+  S.busy=false; await load(); renderAll();
+});
+
+const STATUS_TXT={"neu":["warn","Eingegangen, wartet auf den Druck"],"im Druck":["ok","Wird gerade gedruckt"],"fertig":["ok","Fertig! Bei Robin am Platz abholen"],"abgeholt":["ok","Abgeholt. Frohe Weihnachten!"],"storniert":["bad","Storniert"]};
+async function checkStatus(){
+  const nr=($("s-nr").value||"").trim().toUpperCase(), out=$("statusOut");
+  if(!nr){ out.innerHTML='<p class="hint">Bitte Bestellnummer eingeben.</p>'; return; }
+  if(S.demo){ out.innerHTML='<p class="hint">In der Vorschau gibt es noch keine echten Bestellungen.</p>'; return; }
+  out.innerHTML='<p class="hint">Wird abgefragt …</p>';
+  try{ const r=await fetch(SCRIPT_URL+"?nr="+encodeURIComponent(nr)); const d=await r.json();
+    if(!d.ok){ out.innerHTML=`<p class="pill bad" style="white-space:normal">${esc(d.fehler)}</p>`; return; }
+    const [cls,txt]=STATUS_TXT[d.status]||["warn",d.status];
+    out.innerHTML=`<p style="margin:0"><span class="pill ${cls}">${esc(txt)}</span></p><p class="meta" style="white-space:pre-line;margin:6px 0 0">${esc(d.positionen)}</p><p class="meta" style="margin:4px 0 0">Betrag: ${eur(d.betrag)}</p>`;
+  }catch{ out.innerHTML='<p class="hint">Keine Verbindung. Bitte später noch einmal versuchen.</p>'; }
+}
+try{ const last=localStorage.getItem("deko-nr"); if(last) setTimeout(()=>{ if($("s-nr")) $("s-nr").value=last; },0); }catch{}
+async function load(){
+  if(!SCRIPT_URL.startsWith("https://")){ S.demo=true; S.fil=DEMO.filament; S.prod=DEMO.products; $("stand").textContent="Vorschau";
+    note("Vorschau mit Beispieldaten. Die Verbindung zur Tabelle fehlt noch."); return; }
+  try{
+    const r=await fetch(SCRIPT_URL); const d=await r.json();
+    if(!d.ok) throw 0;
+    S.fil=d.filament; S.prod=d.products; S.closed=!!d.geschlossen; if(d.schluss) S.schluss=d.schluss;
+    $("stand").textContent="Bestand von "+new Date(d.stand).toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"})+" Uhr";
+  }catch{ note("Der Bestand lässt sich gerade nicht laden. Bitte in ein paar Minuten noch einmal öffnen."); $("stand").textContent="offline"; }
+}
+renderCart();
+load().then(renderAll);
+</script>
+</body>
+</html>
