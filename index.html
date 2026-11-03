@@ -233,13 +233,14 @@ function renderCart(){
       <div><label for="f-name">Dein Name *</label><input id="f-name" required maxlength="60" value="${esc(S.form.name)}"></div>
       <div><label for="f-dept">Abteilung</label><input id="f-dept" maxlength="40" value="${esc(S.form.dept)}"></div>
       <div><label for="f-note">Anmerkung</label><textarea id="f-note" rows="2" maxlength="300">${esc(S.form.note)}</textarea></div>
+      <p class="pill bad" id="cartMsg" style="white-space:normal" ${S.msg?"":"hidden"}>${esc(S.msg||"")}</p>
       <button class="primary" type="submit" ${S.busy?"disabled":""}>${S.busy?"Wird gesendet …":"Verbindlich bestellen"}</button>
       <p class="hint">Bestellschluss: 10.12. Das Filament ist reserviert, sobald die Bestellung abgeschickt ist.</p>
     </form>`;
   $("cart").innerHTML=h;
 }
 function renderAll(){ renderProducts(); renderCart(); }
-function note(t){ $("notice").textContent=t||""; }
+function note(t){ $("notice").textContent=t||""; S.msg=t||""; const m=$("cartMsg"); if(m){ m.textContent=S.msg; m.hidden=!S.msg; if(S.msg) m.scrollIntoView({block:"center",behavior:"smooth"}); } }
 function readForm(){ const v=id=>$(id)?$(id).value.trim():""; if($("f-name")) S.form={name:v("f-name"),dept:v("f-dept"),note:v("f-note")}; }
 
 document.addEventListener("change",e=>{
