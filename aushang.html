@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aushang Weihnachtsdeko</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4 portrait; margin: 0; }
+  :root { --pine:#1f5c45; --brass:#a87a26; --ink:#17251f; --muted:#5b6a63; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #e9ece8; color: var(--ink); font-family: "IBM Plex Sans", system-ui, sans-serif; }
+  .sheet { width: 210mm; height: 297mm; margin: 10mm auto; background: #fff; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.15); }
+  .top { background: var(--pine); color: #fff; padding: 18mm 16mm 14mm; text-align: center; }
+  .top h1 { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: 46pt; line-height: 1; margin: 0; letter-spacing: -.01em; }
+  .top p { font-size: 20pt; margin: 6mm 0 0; color: #f0dfb0; font-weight: 500; }
+  .mid { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8mm; padding: 10mm 16mm; }
+  #qr { width: 120mm; height: 120mm; padding: 4mm; border: 1.2mm solid var(--pine); border-radius: 6mm; }
+  #qr img, #qr canvas { width: 100% !important; height: 100% !important; image-rendering: pixelated; }
+  .scan { font-family: "Bricolage Grotesque", sans-serif; font-size: 26pt; font-weight: 600; margin: 0; text-align: center; }
+  .steps { display: flex; gap: 6mm; justify-content: center; font-size: 14pt; color: var(--muted); margin: 0; padding: 0; list-style: none; }
+  .steps li b { color: var(--brass); font-family: "Bricolage Grotesque", sans-serif; font-size: 18pt; margin-right: 1.5mm; }
+  .bottom { border-top: 0.6mm dashed #c9d2cc; padding: 8mm 16mm 12mm; display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; font-size: 13pt; }
+  .bottom div b { display: block; font-size: 11pt; text-transform: uppercase; letter-spacing: .06em; color: var(--pine); margin-bottom: 1mm; }
+  .url { grid-column: 1 / -1; text-align: center; font-size: 11pt; color: var(--muted); }
+  .hint { text-align: center; font-size: 11pt; color: var(--muted); margin: 0 0 8mm; }
+  @media print { html, body { background: #fff; } .sheet { margin: 0; box-shadow: none; } .hint { display: none; } }
+</style>
+</head>
+<body>
+<p class="hint">Zum Ausdrucken Strg+P drücken (DIN A4, Hintergrundgrafiken an, Ränder: keine).</p>
+<div class="sheet">
+  <div class="top">
+    <h1>Weihnachtsdeko<br>aus dem 3D-Drucker</h1>
+    <p>Selbst gedruckt, in deiner Wunschfarbe</p>
+  </div>
+  <div class="mid">
+    <div id="qr"></div>
+    <p class="scan">Scannen und bestellen</p>
+    <ul class="steps">
+      <li><b>1</b>Modell wählen</li>
+      <li><b>2</b>Farbe aussuchen</li>
+      <li><b>3</b>Bestellen</li>
+    </ul>
+  </div>
+  <div class="bottom">
+    <div><b>Abholung</b>Bei Robin am Platz, sobald alles gedruckt ist</div>
+    <div><b>Bezahlen</b>Bar bei Abholung oder per PayPal</div>
+    <div><b>Bestellschluss</b>10. Dezember</div>
+    <div><b>Status</b>Mit deiner Bestellnummer jederzeit auf der Seite</div>
+    <div class="url">robinpeu85-sketch.github.io/Weihnachtsdeko</div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  new QRCode(document.getElementById("qr"), {
+    text: "https://robinpeu85-sketch.github.io/Weihnachtsdeko/",
+    width: 1024, height: 1024, colorDark: "#17251f", colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+</script>
+</body>
+</html>
